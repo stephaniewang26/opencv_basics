@@ -136,20 +136,36 @@ def unique_values_bar():
         'green':[],
         'red':[]
     }
+    
 
     for eachimage in imggs_list:
+        unique_luminosity = 0
         luminosity_hist = histogram_grayscale(eachimage)
-        unique_luminosity = len(set(luminosity_hist))
+        for value in luminosity_hist:
+            if value != 0:
+                unique_luminosity +=1
         unique_values_dict["luminosity"].append(unique_luminosity)
 
+    #print("lum values", unique_values_dict["luminosity"])
+    unique_values_dict["luminosity"] = tuple(unique_values_dict["luminosity"])
+
     for eachimage in img_list:
+        unique_blue = 0
+        unique_green = 0
+        unique_red = 0
         blue_hist, green_hist, red_hist = histogram_BGR(eachimage)
-        unique_blue = len(set(blue_hist))
-        unique_green = len(set(green_hist))
-        unique_red = len(set(red_hist))
+        for i in range(256):
+            if blue_hist[i] != 0:
+                unique_blue +=1
+            if green_hist[i] != 0:
+                unique_green +=1
+            if red_hist[i] != 0:
+                unique_red +=1
         unique_values_dict["blue"].append(unique_blue)
+        print('blue hist', blue_hist)
         unique_values_dict["green"].append(unique_green)
         unique_values_dict["red"].append(unique_red)
+    
 
     print(unique_values_dict)
 
@@ -204,8 +220,8 @@ if __name__ == '__main__':
     cv2.imshow(f'{image1_location} - original', img) 
 
     #luminosity_histogram()
-    color_histogram()
-    #unique_values_bar()
+    #color_histogram()
+    unique_values_bar()
     #unique_colors_bar()
     
     cv2.waitKey() 
