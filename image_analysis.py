@@ -38,6 +38,8 @@ def luminosity_histogram():
     plt.plot(x, y4, label = "luminosity of 25%", color='#c0c0c0') 
 
     plt.legend()
+    plt.xlabel("Luminosity value")
+    plt.ylabel("Frequency of value")
     plt.title("Luminosity-Frequency Analysis", loc='center')
     plt.show()  # display
 
@@ -57,6 +59,8 @@ def color_histogram():
     plt.plot(x, y, label = "red values of original", color='red') 
 
     plt.legend()
+    plt.xlabel("Color value")
+    plt.ylabel("Frequency of value")
     plt.title("Color-Frequency Analysis for Original", loc='center')
     plt.show()  # display
 
@@ -76,6 +80,8 @@ def color_histogram():
     plt.plot(x, y, label = "red values of 75%", color='red') 
 
     plt.legend()
+    plt.xlabel("Color value")
+    plt.ylabel("Frequency of value")
     plt.title("Color-Frequency Analysis for 75%", loc='center')
     plt.show()  # display
 
@@ -95,6 +101,8 @@ def color_histogram():
     plt.plot(x, y, label = "red values of 50%", color='red') 
 
     plt.legend()
+    plt.xlabel("Color value")
+    plt.ylabel("Frequency of value")
     plt.title("Color-Frequency Analysis for 50%", loc='center')
     plt.show()  # display
 
@@ -114,6 +122,8 @@ def color_histogram():
     plt.plot(x, y, label = "red values of 25%", color='red') 
 
     plt.legend()
+    plt.xlabel("Color value")
+    plt.ylabel("Frequency of value")
     plt.title("Color-Frequency Analysis for 25%", loc='center')
     plt.show()  # display
 
@@ -153,6 +163,8 @@ def unique_values_bar():
 
     plt.title("Unique Channel Values of All Images") 
     plt.xticks(x+width*1.5,['Original', '75%', '50%', '25%']) 
+    plt.xlabel("Images")
+    plt.ylabel("Unique channel values")
     plt.legend((lumbar, bluebar, greenbar, redbar), ('Luminosity', 'Blue', 'Green', 'Red') ) 
     plt.show()
 
@@ -182,6 +194,8 @@ def unique_colors_bar():
     plt.bar(realnames, values, color ='orange', width = 0.4)
  
     plt.title("Number of Unique Colors in All Images")
+    plt.ylabel("Number of unique colors")
+    plt.xlabel("Images")
     plt.show()
 
 
@@ -189,10 +203,10 @@ if __name__ == '__main__':
     
     cv2.imshow(f'{image1_location} - original', img) 
 
-    # luminosity_histogram()
-    # color_histogram()
+    #luminosity_histogram()
+    color_histogram()
     #unique_values_bar()
-    unique_colors_bar()
+    #unique_colors_bar()
     
     cv2.waitKey() 
     cv2.destroyAllWindows() 
