@@ -10,4 +10,5 @@ def binary_mask(wellimage):
 if __name__ == '__main__':
     well_image_location = 'colorplate.png'
     well_image_read = cv2.imread(well_image_location)
-    cv2.imshow(f'{well_image_location} - original', well_image_read) 
+    cv2.imshow(f'{well_image_location} - original', well_image_read)
+    cv2.imshow(f'{well_image_location} - BW mask', binary_mask(well_image_read))  
