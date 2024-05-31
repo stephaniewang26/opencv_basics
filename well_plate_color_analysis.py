@@ -47,29 +47,63 @@ def avg_rgb_dilution(colormask):
     ogx = 75
     ogy = 73
     rad = 40
+    count = 0
 
-    yellowdict = {
+    for i in range(4):
+        count += 1
+        ogx=75
+        for k in range(12):
+            avgcircle = 0
+            totalpixelcircle = 0
 
-    }
-    reddict = {}
-    bluedict = {}
-    greendict = {}
-    dictlist = [yellowdict,reddict,bluedict,greendict]
+            startx = ogx - 40
+            endx = ogx+40
+            starty = ogy - 40
+            endy = ogy+40
+            for r, row in enumerate(colormask):
+                for c, value in enumerate(row):
+                    for 
+                        avgpixel = 0
+                        if tuple(colormask[r][c]) != (0,0,0):
+                            avgpixel += colormask[r][c][0] 
+                            avgpixel += colormask[r][c][1]
+                            avgpixel += colormask[r][c][2]
+                            avgpixel /= 3
+                            avgcircle += avgpixel
+                            totalpixelcircle += 1
 
-    for eachdict in dictlist:
-        for i in range(12):
-            eachdict[i] = dict()
-            eachdict[i]["minx"] = ogx-40
-            eachdict[i]["maxx"] = ogx+40
-            eachdict[i]["miny"] = ogy-40
-            eachdict[i]["maxy"] = ogy+40
+            ogx+=129
+        ogy+=129
 
-            ogx += 129
-            ogy += 129
+    # yellowdict = {
 
-    print(dictlist)
+    # }
+    # reddict = {}
+    # bluedict = {}
+    # greendict = {}
+    # dictlist = [yellowdict,reddict,bluedict,greendict]
 
-    
+    # for eachdict in dictlist:
+    #     for i in range(12):
+    #         eachdict[i] = dict()
+    #         eachdict[i]["minx"] = ogx-40
+    #         eachdict[i]["maxx"] = ogx+40
+    #         eachdict[i]["miny"] = ogy-40
+    #         eachdict[i]["maxy"] = ogy+40
+
+    #         ogx += 129
+    #         ogy += 129
+
+    # print(dictlist)
+
+    # for eachdict in dictlist:
+    #     for eachkey in eachdict:
+    #         avgcircle = 0
+    #         xrange = eachdict[eachkey]["maxx"] - eachdict[eachkey]["minx"]
+    #         yrange = eachdict[eachkey]["maxy"] - eachdict[eachkey]["miny"]
+            
+                
+
     
     print(dilutionticks)
 
@@ -89,7 +123,7 @@ if __name__ == '__main__':
 
     color_mask_read = cv2.imread(color_mask_location)
 
-    avg_rgb_dilution(color_mask_read)
+    #avg_rgb_dilution(color_mask_read)
     
     cv2.waitKey() 
     cv2.destroyAllWindows() 
