@@ -37,7 +37,15 @@ def color_mask(bwmask, wellimage):
     return(colormask)
 
 def avg_rgb_dilution(colormask):
+    colorcopy = colormask.copy()
     dilutionticks = []
+    colorrows = ["yellow","red","blue","green"]
+    colordict = {
+        "yellow":[],
+        "red":[],
+        "blue":[],
+        "green":[]
+    }
 
     count = 1
     for i in range(12):
@@ -47,65 +55,42 @@ def avg_rgb_dilution(colormask):
     ogx = 75
     ogy = 73
     rad = 40
-    count = 0
 
     for i in range(4):
-        count += 1
         ogx=75
         for k in range(12):
             avgcircle = 0
-            totalpixelcircle = 0
+            totalpixelsincircle = 0
+            sumincircle = 0
 
-            startx = ogx - 40
-            endx = ogx+40
-            starty = ogy - 40
-            endy = ogy+40
+            startx = ogx-rad
+            endx = ogx+rad
+            starty = ogy-rad
+            endy = ogy+rad
             for r, row in enumerate(colormask):
                 for c, value in enumerate(row):
-                    for 
-                        avgpixel = 0
+                    if c>=startx and c <=endx and r>=starty and r<=endy:
+                        # colorcopy[r][c][0] = 255
+                        # colorcopy[r][c][1] = 255
+                        # colorcopy[r][c][2] = 255
                         if tuple(colormask[r][c]) != (0,0,0):
+                            totalpixelsincircle += 1
+                            avgpixel = 0
                             avgpixel += colormask[r][c][0] 
-                            avgpixel += colormask[r][c][1]
-                            avgpixel += colormask[r][c][2]
+                            avgpixel += colormask[r][c][1] 
+                            avgpixel += colormask[r][c][2] 
                             avgpixel /= 3
-                            avgcircle += avgpixel
-                            totalpixelcircle += 1
-
+                            sumincircle += avgpixel
+                            print(totalpixelsincircle)
+    
+            avgcircle = sumincircle/totalpixelsincircle
+            colordict[colorrows[i]].append(avgcircle)        
             ogx+=129
         ogy+=129
 
-    # yellowdict = {
-
-    # }
-    # reddict = {}
-    # bluedict = {}
-    # greendict = {}
-    # dictlist = [yellowdict,reddict,bluedict,greendict]
-
-    # for eachdict in dictlist:
-    #     for i in range(12):
-    #         eachdict[i] = dict()
-    #         eachdict[i]["minx"] = ogx-40
-    #         eachdict[i]["maxx"] = ogx+40
-    #         eachdict[i]["miny"] = ogy-40
-    #         eachdict[i]["maxy"] = ogy+40
-
-    #         ogx += 129
-    #         ogy += 129
-
-    # print(dictlist)
-
-    # for eachdict in dictlist:
-    #     for eachkey in eachdict:
-    #         avgcircle = 0
-    #         xrange = eachdict[eachkey]["maxx"] - eachdict[eachkey]["minx"]
-    #         yrange = eachdict[eachkey]["maxy"] - eachdict[eachkey]["miny"]
-            
-                
-
-    
     print(dilutionticks)
+    cv2.imwrite("plate_color_grid_copy.png", colorcopy)
+    return(colorcopy)
 
 if __name__ == '__main__':
     well_image_location = 'colorplate.png'
@@ -123,7 +108,9 @@ if __name__ == '__main__':
 
     color_mask_read = cv2.imread(color_mask_location)
 
-    #avg_rgb_dilution(color_mask_read)
+    color_mask_copy_location = "plate_color_grid_copy.png"
+
+    cv2.imshow(f'{color_mask_location} - color copy',avg_rgb_dilution(color_mask_read))
     
     cv2.waitKey() 
     cv2.destroyAllWindows() 
