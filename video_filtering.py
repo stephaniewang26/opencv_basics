@@ -5,7 +5,8 @@ from opencv_basics_BGR import histogram_BGR
 import numpy as np
 import os
 
-def filter_photo(frame):
+def filter_photo(frame, framecount):
+    frame = cv2.imread(frame)
     framecopy = frame.copy()
 
     ogx = 0
@@ -49,17 +50,23 @@ def filter_photo(frame):
             greenavg = greentotal/len(green_list)
             redavg = redtotal/len(red_list)
 
-            for r, row in enumerate(framecopy):
-                for c, value in enumerate(row):
-                    if c>=startx and c <=endx and r>=starty and r<=endy:
-                        framecopy[r][c][0] = blueavg
-                        framecopy[r][c][1] = greenavg
-                        framecopy[r][c][2] = redavg
+            cv2.rectangle(framecopy, (ogx,ogy), (ogx+20,ogy+20), (blueavg,greenavg,redavg), -1)
+
+            # for r, row in enumerate(framecopy):
+            #     for c, value in enumerate(row):
+            #         if c>=startx and c <=endx and r>=starty and r<=endy:
+            #             framecopy[r][c][0] = blueavg
+            #             framecopy[r][c][1] = greenavg
+            #             framecopy[r][c][2] = redavg
 
             ogx+=20
         ogy+=20
 
-    return(framecopy)
+    folderpath = "/Users/stephanie.wang26/Desktop/ADV_CS/opencv_basics/filtered_images"
+    framename = "frame%d.jpg" % framecount
+    joined = os.path.join(folderpath, framename)
+    cv2.imwrite(joined, framecopy)
+
 
 def FrameCapture(path): 
 
@@ -87,14 +94,37 @@ def FrameCapture(path):
   
         count += 1
 
+def save_video():
+    video = cv2.VideoWriter('filtered_video.mp4', cv2.VideoWriter_fourcc(*"mp4v"), 24, (640, 360))
+
+    for j in range(182):
+        folderpath = "/Users/stephanie.wang26/Desktop/ADV_CS/opencv_basics/filtered_images"
+        framename = "frame%d.jpg" % j
+        joined = os.path.join(folderpath, framename)
+        
+        img = cv2.imread(joined)
+        video.write(img)
+
+    cv2.destroyAllWindows()
+    video.release()
+
 if __name__ == '__main__':
     frame_location='opossum_vid_frame.png'
     frame_read = cv2.imread(frame_location)
 
     video_location = 'opossum_video.mp4'
 
-    #cv2.imshow(f'{frame_location} - filter photo', filter_photo(frame_read))  
-    FrameCapture(video_location) 
+    #cv2.imshow(f'{frame_location} - filter photo', filter_photo(frame_read,1))  
+    #FrameCapture(video_location) 
+
+
+    # folderpath = "/Users/stephanie.wang26/Desktop/ADV_CS/opencv_basics/images"
+    # for i in range(48,182):
+    #     framename = "frame%d.jpg" % i
+    #     joined = os.path.join(folderpath, framename)
+    #     filter_photo(joined, i)
+
+    save_video()
 
     cv2.waitKey() 
     cv2.destroyAllWindows() 
